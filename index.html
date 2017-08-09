@@ -241,6 +241,23 @@
               </ul>
           </li>
           <li>
+            <a href="#ad-campaigns" class="toc-h1 toc-link" data-title="Ad Campaigns">Ad Campaigns</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ad-campaign-model" class="toc-h2 toc-link" data-title="Ad Campaigns">Ad Campaign Model</a>
+                  </li>
+                  <li>
+                    <a href="#audience-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Audience Spec</a>
+                  </li>
+                  <li>
+                    <a href="#targeting-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Targeting Spec</a>
+                  </li>
+                  <li>
+                    <a href="#creative-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Creative Spec</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#ad-creation-flow" class="toc-h1 toc-link" data-title="Ad Creation Flow">Ad Creation Flow</a>
           </li>
       </div>
@@ -539,6 +556,367 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all Facebook pages that are accessible by the specified ToneDen user.</p>
+<h1 id='ad-campaigns'>Ad Campaigns</h1>
+<p>An ad campaign represents an amount of money that will be spent over a given time period to accomplish a specific objective.</p>
+<h2 id='ad-campaign-model'>Ad Campaign Model</h2>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>The title of the ad campaign.</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>string</td>
+<td>The advertising platform the ads in this campaign will be served on. Currently, the only valid value is &#39;facebook&#39;.</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>int</td>
+<td>The ID of the ToneDen user who owns the campaign.</td>
+</tr>
+<tr>
+<td>external_ad_account_id</td>
+<td>string</td>
+<td>The ID of the ad account that this campaign is running under.</td>
+</tr>
+<tr>
+<td>external_id</td>
+<td>string</td>
+<td>The ID of this campaign on the service it is running on (Facebook).</td>
+</tr>
+<tr>
+<td>external_poster_id</td>
+<td>string</td>
+<td>The ID of the page that is running this ad.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>The status of the campaign. Valid values are &#39;active&#39;, &#39;inactive&#39;, &#39;draft&#39;, &#39;error&#39;, &#39;pending&#39;, and &#39;paused&#39;.</td>
+</tr>
+<tr>
+<td>status_log</td>
+<td>array</td>
+<td>An array of objects representing actions that have been taken on the campaign at specific times. Examples of log items include ads starting to spend or budgets being optimized.</td>
+</tr>
+<tr>
+<td>status_message</td>
+<td>string</td>
+<td>An error message to be shown to the user. May be a JSON string with &#39;title&#39; and &#39;message&#39; attributes, or just a string.</td>
+</tr>
+<tr>
+<td>report_emails</td>
+<td>array</td>
+<td>List of email addresses that will receive reports about this campaign.</td>
+</tr>
+<tr>
+<td>target_type</td>
+<td>string</td>
+<td>The type of objective that this campaign will try to achieve. Valid values are &#39;app&#39;, &#39;conversion&#39;, &#39;event&#39;, &#39;likes&#39;, &#39;link&#39;, and &#39;post_engagement&#39;.</td>
+</tr>
+<tr>
+<td>target</td>
+<td>string</td>
+<td>The objective of the campaign. Depending on the value of <code>target_type</code>, this will be the ID of the app (for &#39;app&#39; <code>target_type</code>), event (for &#39;event&#39;), or post (for &#39;post_engagement&#39;) to drive users to. For &#39;link&#39; and &#39;conversion&#39; <code>target_type</code> values, this will be the URL of the link to send users to. This will be null for &#39;likes&#39; campaigns.</td>
+</tr>
+<tr>
+<td>optimization_id</td>
+<td>string</td>
+<td>For campaigns with the <code>target_type</code> value set to &#39;conversion&#39;, this will be the name of the Facebook conversion event to optimize for when using standard conversion events, or the ID of a custom conversion event.</td>
+</tr>
+<tr>
+<td>objective</td>
+<td>string</td>
+<td>When the campaign <code>target_type</code> field is set to &#39;conversion&#39; and a standard conversion event is selected as the <code>optimization_id</code>, this will be the ID of the pixel that the standard conversion event belongs to.</td>
+</tr>
+<tr>
+<td>budget_type</td>
+<td>string</td>
+<td>How to interpret the value of <code>budget_amount</code>. Valid values are &#39;daily&#39; (<code>budget_amount</code> will be spent each day between <code>start_timestamp</code> and <code>end_timestamp</code>) or &#39;lifetime&#39; (a total of <code>budget_amount</code> will be spent between <code>start_timestamp</code> and <code>end_timestamp</code>).</td>
+</tr>
+<tr>
+<td>budget_amount</td>
+<td>int</td>
+<td>The amount of budget to spend, either every day or over the course of the campaign. Values are in the minimum currency increment possible (cents for USD).</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>The 3-letter currency code of the currency that this campaign&#39;s budget is in.</td>
+</tr>
+<tr>
+<td>amount_spent</td>
+<td>double</td>
+<td>The total amount spent on this campaign so far.</td>
+</tr>
+<tr>
+<td>start_timestamp</td>
+<td>int</td>
+<td>The Unix timestamp of the start time/date of this campaign.</td>
+</tr>
+<tr>
+<td>end_timestamp</td>
+<td>int</td>
+<td>The Unix timestamp of the end time/date of this campaign.</td>
+</tr>
+<tr>
+<td>amount_spent</td>
+<td>double</td>
+<td>The amount of money that has been spent on this campaign so far.</td>
+</tr>
+<tr>
+<td>reach</td>
+<td>int</td>
+<td>The total number of people who have seen ads in this campaign.</td>
+</tr>
+<tr>
+<td>clicks</td>
+<td>int</td>
+<td>The total number of clicks that the link in the ad has had.</td>
+</tr>
+<tr>
+<td>cpc</td>
+<td>float</td>
+<td>The cost per link click.</td>
+</tr>
+<tr>
+<td>ctr</td>
+<td>float</td>
+<td>The fraction of people who see ads in this campaign that click the link in the ad.</td>
+</tr>
+<tr>
+<td>conversions</td>
+<td>int</td>
+<td>The number of times users have performed the campaign objective- conversion events, page likes, event RSVPs, etc.</td>
+</tr>
+<tr>
+<td>conversion_rate</td>
+<td>double</td>
+<td>The faction of people that see the ad who perform the campaign objective.</td>
+</tr>
+<tr>
+<td>conversion_value</td>
+<td>double</td>
+<td>The total currency value of PURCHASE events that occurred from users who clicked ads in this campaign.</td>
+</tr>
+<tr>
+<td>cost_per_conversion</td>
+<td>double</td>
+<td>The average cost to get a user to perform the campaign objective.</td>
+</tr>
+<tr>
+<td>audiences</td>
+<td>array</td>
+<td>An array of different &#39;audiences&#39;, which each define a set of users to display ads to. See the <a href="#audience-spec">audience spec</a> for details.</td>
+</tr>
+<tr>
+<td>creatives</td>
+<td>object</td>
+<td>Defines the content that the ad will display to users. See the <a href="#creatives-spec">creative spec</a> for details.</td>
+</tr>
+</tbody></table>
+<h2 id='audience-spec'>Audience Spec</h2>
+<p>Ad campaigns can have multiple audiences, which each contain a set of targeting parameters that decide which users the ad will be shown to. Statistics for each audience are tracked individually, allowing us to dynamically distribute budget between different audiences according to how well they are performing.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>The ID of the Facebook adset that this audience represents.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The name of the audience. Can be automatically generated, or entered manually.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>The status of the audience. Can be &#39;ACTIVE&#39; or &#39;PAUSED&#39;.</td>
+</tr>
+<tr>
+<td>weight</td>
+<td>double</td>
+<td>The portion of the campaign&#39;s budget that has been allocated to this audience. Budget is initially distributed evenly amongst the audiences, but over time more budget will be assigned to high-performing audiences.</td>
+</tr>
+<tr>
+<td>data_source_platform</td>
+<td>string</td>
+<td>The platform that ToneDen&#39;s backend will get audience data from to create this audience. Valid values are &#39;eventbrite&#39;, &#39;facebook&#39;, &#39;mailchimp&#39;, &#39;pixel&#39;, &#39;shopify&#39;, and &#39;toneden&#39;.</td>
+</tr>
+<tr>
+<td>data_source</td>
+<td>string</td>
+<td>The type of data that will be pulled from the platform defined in <code>data_source_platform</code>. The available options depend on the value of <code>data_source_platform</code>. For example, the value of the <code>data_source</code> attribute when the <code>data_source_platform</code> is &#39;eventbrite&#39; can be &#39;all-attendees&#39;, &#39;event-attendees&#39;, &#39;page-visitors&#39;, &#39;rsvps&#39;, or &#39;top-attendees&#39;.</td>
+</tr>
+<tr>
+<td>is_lookalike</td>
+<td>boolean</td>
+<td>Whether to advertise directly to the users defined by the <code>data_source_platform</code> and <code>data_source</code> attributes, or to create a Facebook lookalike audience out of the defined users and advertise to that audience.</td>
+</tr>
+<tr>
+<td>targeting</td>
+<td>object</td>
+<td>Targeting parameters that will be applied to this audience in Facebook. These parameters will filter down the audience defined by the <code>data_source_platform</code>, <code>data_source</code>, and <code>is_lookalike</code> attributes. See the <a href="#targeting-spec">targeting spec</a> for details on fields available.</td>
+</tr>
+<tr>
+<td>amount_spent</td>
+<td>double</td>
+<td>The amount of money that has been spent on ads in this audience.</td>
+</tr>
+<tr>
+<td>reach</td>
+<td>int</td>
+<td>The total number of people who have seen ads in this audience.</td>
+</tr>
+<tr>
+<td>clicks</td>
+<td>int</td>
+<td>The total number of clicks that the links in ads in this audience have had.</td>
+</tr>
+<tr>
+<td>cpc</td>
+<td>float</td>
+<td>The cost per link click.</td>
+</tr>
+<tr>
+<td>ctr</td>
+<td>float</td>
+<td>The fraction of people who see ads in this audience that click the link in the ad.</td>
+</tr>
+<tr>
+<td>conversions</td>
+<td>int</td>
+<td>The number of times users have performed the campaign objective- conversion events, page likes, event RSVPs, etc.</td>
+</tr>
+<tr>
+<td>conversion_rate</td>
+<td>double</td>
+<td>The faction of people that see ads in this audience who perform the campaign objective.</td>
+</tr>
+<tr>
+<td>conversion_value</td>
+<td>double</td>
+<td>The total currency value of PURCHASE events that occurred from users who clicked ads in this audience.</td>
+</tr>
+<tr>
+<td>cost_per_conversion</td>
+<td>double</td>
+<td>The average cost to get a user to perform the campaign objective.</td>
+</tr>
+</tbody></table>
+<h2 id='targeting-spec'>Targeting Spec</h2>
+<p>The <code>targeting</code> attribute of an audience is the final step in determining which users will see ads in the audience. After the ToneDen backend pulls audience data from the <code>data_source_platform</code> and sends that user data to Facebook for targeting, the filters defined in the <code>targeting</code> attribute will be applied. All values are optional.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>age</td>
+<td>object</td>
+<td>An object containing &#39;min&#39; and &#39;max&#39; attributes that defined the minimum and maximum age of users to show ads to.</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>string</td>
+<td>Either &#39;m&#39; or &#39;f&#39;.</td>
+</tr>
+<tr>
+<td>publisher_platforms</td>
+<td>string</td>
+<td>The list of platforms to show the ads on. The array can currently include &#39;facebook&#39; and &#39;instagram&#39;.</td>
+</tr>
+<tr>
+<td>cities</td>
+<td>array</td>
+<td>An array of objects containing &#39;id&#39;, &#39;name&#39;, and optional &#39;radius&#39; attributes that define cities to target users in. Cities can be retrieved using the <a href="#targeting-search-api">targeting search API</a>. The &#39;radius&#39; attribute is an integer between 10 and 50 that specifies the radius of a circle around the city. Users within that circle will be targeted.</td>
+</tr>
+<tr>
+<td>regions</td>
+<td>array</td>
+<td>An array of objects containing &#39;id&#39; and &#39;name&#39; attributes. Regions are typically states or provinces, and can be retrieved using the <a href="#targeting-search-api">targeting search API</a>.</td>
+</tr>
+<tr>
+<td>countries</td>
+<td>array</td>
+<td>An array of objects containing &#39;id&#39; and &#39;name&#39; attributes. If no country is defined, ads will show to users in the United States.</td>
+</tr>
+<tr>
+<td>flexible_spec</td>
+<td>array</td>
+<td>A list of objects with <code>interests</code>, <code>behaviors</code>, and <code>demographics</code> attributes.</td>
+</tr>
+<tr>
+<td>exclusions</td>
+<td>object</td>
+<td>An object with <code>interests</code>, <code>behaviors</code>, and <code>demographics</code> attributes. Only users who do not match the specified parameters will be targeted.</td>
+</tr>
+</tbody></table>
+<h2 id='creative-spec'>Creative Spec</h2>
+<p>The <code>creative</code> attribute of a campaign determines how the ads in that campaign will look. Advertisers are able to enter multiple different options for all fields available, and the ToneDen backend will generate combinations of all the different options the user enters. The combinations will be A/B tested against each other to determine the most effective creative combination, and that creative combination will be shown to users.</p>
+
+<p>The creative fields that are required depends on the campaign&#39;s <code>target_type</code>.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>array</td>
+<td>The main text of the ad.</td>
+</tr>
+<tr>
+<td>cta_type</td>
+<td>array</td>
+<td>The type of CTA to display for the ad. Valid values are &#39;addToCart&#39;, &#39;bookNow&#39;, &#39;buy&#39;, &#39;buyNow&#39;, &#39;buyTickets&#39;, &#39;download&#39;, &#39;eventRsvp&#39;, &#39;installMobileApp&#39;, &#39;learnMore&#39;, &#39;likePage&#39;, &#39;listenMusic&#39;, &#39;noButton&#39;, &#39;orderNow&#39;, &#39;playGame&#39;, &#39;shopNow&#39;, &#39;signUp&#39;, &#39;useApp&#39;, and &#39;watchMore&#39;.</td>
+</tr>
+<tr>
+<td>headline</td>
+<td>array</td>
+<td>The title text that will appear in bold in the ad.</td>
+</tr>
+<tr>
+<td>link_description</td>
+<td>array</td>
+<td>The text that will appear under the link in the ad.</td>
+</tr>
+<tr>
+<td>display_asset</td>
+<td>array</td>
+<td>An array of objects with a <code>type</code> parameter equal to &#39;video&#39; or &#39;image&#39;. Each object represents a video or image to be displayed in the ad. Videos should have <code>video_id</code>, <code>video_url</code>, and <code>image_url</code> (for the video thumbnail) fields, and images should have <code>image_hash</code> and <code>image_url</code> fields.</td>
+</tr>
+<tr>
+<td>is_carousel</td>
+<td>boolean</td>
+<td>Whether the creative should be displayed as a carousel of images. A carousel ad must have between 2 and 10 images or videos in it.</td>
+</tr>
+<tr>
+<td>link</td>
+<td>array</td>
+<td>If <code>is_carousel</code> is true, this field can be used to set the links of individual carousel items.</td>
+</tr>
+</tbody></table>
 <h1 id='ad-creation-flow'>Ad Creation Flow</h1>
 <p>When creating an ad, the following API calls are necessary.</p>
 
