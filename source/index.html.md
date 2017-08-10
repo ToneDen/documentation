@@ -11,9 +11,10 @@ toc_footers:
     - <a href='https://www.toneden.io'>ToneDen</a>
 
 includes:
+    - adcampaigns
     - adaccounts
     - pages
-    - adcampaigns
+    - targeting
     - adwalkthrough
 
 search: true
