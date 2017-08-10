@@ -98,9 +98,120 @@ link | array | If `is_carousel` is true, this field can be used to set the links
 > Sample Request
 
 ```shell
-curl https://www.toneden.io/api/v1/advertising/campaigns
-    -H 'Authorization: Bearer <Token>'
-    --data-binary $'{"platform":"facebook","title":"Website Traffic","user_id":null,"optimization_id":"CONTENT_VIEW","objective":"471224396398376","target":"www.toneden.io","target_type":"conversion","app_deep_link_url":null,"app_store_url":null,"creatives":{"id":[],"is_carousel":false,"cta_type":["learnMore"],"link":[],"link_description":["Click to find out more!"],"headline":["Create Ads Even Easier"],"display_asset":[{"image_hash":"9e1ef0776fb09fc488dd834fe3505513","image_url":"https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&oe=5A35B1B5"},{"image_url":"https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&oe=59F073EB","type":"video","video_id":"10154988045646798","video_url":"https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=2034&vabr=1356&oh=04a4df86e0f49c047b43a2c471febdc2&oe=598E3846"}],"deep_link":[],"text":["ToneDen\'s new API is out!"],"type":[],"clientHeight":[],"clientWidth":[]},"audiences":[{"targeting":{"age":{"min":25,"max":34},"cities":[],"countries":[],"gender":null,"flexible_spec":[],"exclusions":null,"regions":[],"publisher_platforms":["facebook"],"saved_audience_id":null},"data_source_platform":"facebook","data_source":"page-likes","filters":["age"],"page_ids":["614903758559916"],"is_lookalike":false},{"targeting":{"age":{"min":"18","max":"30"},"cities":[{"name":"Los Angeles","radius":20,"id":"2420379"}],"countries":[],"gender":null,"flexible_spec":[{"behaviors":[],"demographics":[{"name":"High school grad","audience_size":262891769,"type":"education_statuses","id":"4"},{"name":"High school grad","audience_size":262891769,"type":"education_statuses","id":"4"}],"interests":[{"name":"EDM","id":"6003336551848"}]}],"exclusions":{"behaviors":[],"demographics":[],"interests":[{"name":"Skrillex","id":"6003350444039"}]},"regions":[],"publisher_platforms":["facebook","instagram"],"saved_audience_id":null},"data_source_platform":"facebook","data_source":"interests","is_lookalike":false}],"report_emails":["renegadelsbree@gmail.com"],"targeting":{},"budget_type":"lifetime","budget_amount":10000,"external_ad_account_id":"act_246197557","external_poster_id":"614903758559916","start_timestamp":1502326086,"end_timestamp":1502585289,"currency":"USD","status":"active"}'
+curl https://www.toneden.io/api/v1/advertising/campaigns \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer <Token>' \
+    -d '{
+        "platform": "facebook",
+        "title": "Website Traffic",
+        "user_id": null,
+        "optimization_id": "CONTENT_VIEW",
+        "objective": "471224396398376",
+        "target": "www.toneden.io",
+        "target_type": "conversion",
+        "app_deep_link_url": null,
+        "app_store_url": null,
+        "creatives": {
+            "id": [],
+            "is_carousel": false,
+            "cta_type": ["learnMore"],
+            "link": [],
+            "link_description": ["Click to find out more!"],
+            "headline": ["Create Ads Even Easier"],
+            "display_asset": [{
+                "image_hash": "9e1ef0776fb09fc488dd834fe3505513",
+                "image_url": "https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&oe=5A35B1B5"
+            }, {
+                "image_url": "https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&oe=59F073EB",
+                "type": "video",
+                "video_id": "10154988045646798",
+                "video_url": "https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=2034&vabr=1356&oh=04a4df86e0f49c047b43a2c471febdc2&oe=598E3846"
+            }],
+            "deep_link": [],
+            "text": ["ToneDen\'s new API is out!"],
+            "type": [],
+            "clientHeight": [],
+            "clientWidth": []
+        },
+        "audiences": [{
+            "targeting": {
+                "age": {
+                    "min": 25,
+                    "max": 34
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [],
+                "exclusions": null,
+                "regions": [],
+                "publisher_platforms": ["facebook"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "page-likes",
+            "filters": ["age"],
+            "page_ids": ["614903758559916"],
+            "is_lookalike": false
+        }, {
+            "targeting": {
+                "age": {
+                    "min": "18",
+                    "max": "30"
+                },
+                "cities": [{
+                    "name": "Los Angeles",
+                    "radius": 20,
+                    "id": "2420379"
+                }],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [{
+                    "behaviors": [],
+                    "demographics": [{
+                        "name": "High school grad",
+                        "audience_size": 262891769,
+                        "type": "education_statuses",
+                        "id": "4"
+                    }, {
+                        "name": "High school grad",
+                        "audience_size": 262891769,
+                        "type": "education_statuses",
+                        "id": "4"
+                    }],
+                    "interests": [{
+                        "name": "EDM",
+                        "id": "6003336551848"
+                    }]
+                }],
+                "exclusions": {
+                    "behaviors": [],
+                    "demographics": [],
+                    "interests": [{
+                        "name": "Skrillex",
+                        "id": "6003350444039"
+                    }]
+                },
+                "regions": [],
+                "publisher_platforms": ["facebook", "instagram"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "interests",
+            "is_lookalike": false
+        }],
+        "report_emails": ["renegadelsbree@gmail.com"],
+        "targeting": {},
+        "budget_type": "lifetime",
+        "budget_amount": 10000,
+        "external_ad_account_id": "act_246197557",
+        "external_poster_id": "614903758559916",
+        "start_timestamp": 1502326086,
+        "end_timestamp": 1502585289,
+        "currency": "USD",
+        "status": "active"
+    }'
 ```
 
 > Sample Response

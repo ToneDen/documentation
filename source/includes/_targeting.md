@@ -7,7 +7,7 @@ Endpoints in this section assist advertisers in generating targeting specs for t
 > Sample Request
 
 ```shell
-curl https://www.toneden.io/api/v1/advertising/targeting/audienceSizes
+curl https://www.toneden.io/api/v1/advertising/targeting/audienceSizes \
     -H 'Authorization: Bearer <Token>'
 ```
 
@@ -33,7 +33,7 @@ For example, if the endpoint says that an advertiser has only 60 fans available 
 > Sample Request
 
 ```shell
-curl https://www.toneden.io/api/v1/advertising/targeting/pastAudiences
+curl https://www.toneden.io/api/v1/advertising/targeting/pastAudiences \
     -H 'Authorization: Bearer <Token>'
 ```
 
@@ -197,7 +197,7 @@ It is meant to aid advertisers in creating audiences, by showing them audiences 
 > Sample Request
 
 ```shell
-curl https://www.toneden.io/api/v1/advertising/targeting/search?platform=facebook&query=new%20york&type=location
+curl https://www.toneden.io/api/v1/advertising/targeting/search?platform=facebook&query=new%20york&type=location \
     -H 'Authorization: Bearer <Token>'
 ```
 
@@ -289,3 +289,104 @@ Attribute | Type | Required | Description
 platform | string | yes | The platform to target ads on. The only valid value is 'facebook'.
 query | string | yes | The string to search the Facebook targeting API for.
 type | string | yes | The type of targeting parameter to search for. Either 'interest' or 'location'.
+
+## Create a Reach Estimate
+
+> Sample Request
+
+```shell
+curl https://www.toneden.io/api/v1/advertising/targeting/reachEstimate \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer <Token>' \
+    -d '{
+        "platform": "facebook",
+        "audiences": [{
+            "targeting": {
+                "age": {
+                    "min": 25,
+                    "max": 34
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [],
+                "exclusions": null,
+                "regions": [],
+                "publisher_platforms": ["facebook", "instagram"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "page-likes",
+            "filters": ["age"],
+            "page_ids": ["614903758559916"],
+            "is_lookalike": false
+        }, {
+            "data_source_platform": "facebook",
+            "data_source": "interests",
+            "is_lookalike": false,
+            "targeting": {
+                "age": {
+                    "min": "18",
+                    "max": "25"
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [{
+                    "interests": [{
+                        "name": "Metallica",
+                        "id": "6003261805314"
+                    }, {
+                        "name": "Slayer",
+                        "id": "6003358694204"
+                    }, {
+                        "name": "Anthrax (American band)",
+                        "id": "6003587129303"
+                    }]
+                }],
+                "exclusions": null,
+                "regions": [{
+                    "name": "California",
+                    "id": "3847"
+                }],
+                "publisher_platforms": ["instagram"],
+                "custom_audiences": []
+            }
+        }],
+        "budget_type": "lifetime",
+        "budget_amount": 10000,
+        "external_ad_account_id": "act_246197557",
+        "start_timestamp": 1502393445,
+        "end_timestamp": 1502652648
+    }'
+```
+
+> Sample Response
+
+```json
+{
+	"estimates": [{
+		"size": 4200
+	}, {
+		"size": 510000
+	}]
+}
+```
+
+While in the process of creating audiences for an ad campaign, it can be useful to know how large an audience is going to be. If an audience is too small, it may cost a lot to show ads to people in it, but if an audience is too large then the targeting may not be specific enough.
+
+This endpoint allows advertisers to get an estimate of how large their audiences are. The response will include an estimate for each audience.
+For certain types of audiences, we aren't able to get a real-time size estimate until the campaign has been fully created.
+For new campaigns, only audiences with the `data_source_platform` set to 'facebook' and `is_lookalike` set to false will be able to get accurate reach estimates. Other estimates should not be shown to the advertiser.
+
+### Body Parameters
+
+Attribute | Type | Required | Description
+- | - | - | -
+budget_type | string | yes | Either 'daily' or 'lifetime'. The higher the budget of the campaign is, the more people it will reach.
+platform | string | yes | The platform to get reach estimates from. Currently, the only valid value is 'facebook'.
+start_timestamp | int | no | When the `budget_type` is 'lifetime', both `start_timestamp` and `end_timestamp` must be specified, as the amount of budget spent per day is used to determine the reach estimate.
+end_timestamp | int | no |
+external_ad_account_id | string | yes | The ad account that the ad will be run under.
+audiences | array | yes | The list of audiences to get reach estimates for.
