@@ -19,6 +19,8 @@ includes:
 search: true
 ---
 
-# Introduction
+# Welcome
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Welcome to our API reference!
+
+You can view code examples in the area to the right. We currently only provide examples in Javascript.
