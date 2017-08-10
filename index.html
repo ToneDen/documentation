@@ -6,6 +6,7 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>ToneDen Ads API Reference</title>
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
 
     <style>
       .highlight table td { padding: 5px; }
@@ -219,6 +220,26 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
+            <a href="#ad-campaigns" class="toc-h1 toc-link" data-title="Ad Campaigns">Ad Campaigns</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ad-campaign-model" class="toc-h2 toc-link" data-title="Ad Campaigns">Ad Campaign Model</a>
+                  </li>
+                  <li>
+                    <a href="#audience-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Audience Spec</a>
+                  </li>
+                  <li>
+                    <a href="#targeting-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Targeting Spec</a>
+                  </li>
+                  <li>
+                    <a href="#creative-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Creative Spec</a>
+                  </li>
+                  <li>
+                    <a href="#create-an-ad-campaign" class="toc-h2 toc-link" data-title="Ad Campaigns">Create an Ad Campaign</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#ad-accounts" class="toc-h1 toc-link" data-title="Ad Accounts">Ad Accounts</a>
               <ul class="toc-list-h2">
                   <li>
@@ -241,19 +262,19 @@
               </ul>
           </li>
           <li>
-            <a href="#ad-campaigns" class="toc-h1 toc-link" data-title="Ad Campaigns">Ad Campaigns</a>
+            <a href="#targeting" class="toc-h1 toc-link" data-title="Targeting">Targeting</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#ad-campaign-model" class="toc-h2 toc-link" data-title="Ad Campaigns">Ad Campaign Model</a>
+                    <a href="#get-audience-sizes" class="toc-h2 toc-link" data-title="Targeting">Get Audience Sizes</a>
                   </li>
                   <li>
-                    <a href="#audience-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Audience Spec</a>
+                    <a href="#get-past-audiences" class="toc-h2 toc-link" data-title="Targeting">Get Past Audiences</a>
                   </li>
                   <li>
-                    <a href="#targeting-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Targeting Spec</a>
+                    <a href="#targeting-category-search" class="toc-h2 toc-link" data-title="Targeting">Targeting Category Search</a>
                   </li>
                   <li>
-                    <a href="#creative-spec" class="toc-h2 toc-link" data-title="Ad Campaigns">Creative Spec</a>
+                    <a href="#create-a-reach-estimate" class="toc-h2 toc-link" data-title="Targeting">Create a Reach Estimate</a>
                   </li>
               </ul>
           </li>
@@ -270,292 +291,6 @@
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
 <p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='ad-accounts'>Ad Accounts</h1>
-<p>Ad accounts are entities that can run ads on Facebook. Every ad campaign on Facebook is run through an ad account, and the budget of that ad is charged to the payment method attached to the ad account that owns the campaign.</p>
-
-<p>The owner of a Facebook ad account can grant access to the ad account to multiple Facebook users, and each Facebook user can access to multiple ad accounts.</p>
-<h2 id='ad-account-model'>Ad Account Model</h2>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>amount_spent</td>
-<td>double</td>
-<td>The total amount of money this ad account has spent on ads.</td>
-</tr>
-<tr>
-<td>currency</td>
-<td>string</td>
-<td>The three-letter code of the currency that this ad account uses.</td>
-</tr>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>Unique ID of the ad account (assigned by Facebook).</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>Name of the ad account.</td>
-</tr>
-<tr>
-<td>spend_cap</td>
-<td>double</td>
-<td>The spend limit of the ad account. 0 means there is no limit.</td>
-</tr>
-<tr>
-<td>timezone_name</td>
-<td>string</td>
-<td>The name of the timezone that this ad account is in.</td>
-</tr>
-<tr>
-<td>timezone_offset_hours_utc</td>
-<td>int</td>
-<td>The number of hours that the timezone is offset from UTC time.</td>
-</tr>
-<tr>
-<td>tos_accepted</td>
-<td>object</td>
-<td>The Facebook terms of service that this ad account has accepted.</td>
-</tr>
-<tr>
-<td>tos_accepted.custom_audience_tos</td>
-<td>int</td>
-<td>Whether the Facebook custom audience TOS have been accepted. If not accepted, the user needs to go to https://www.facebook.com/ads/manage/customaudiences/tos.php.</td>
-</tr>
-<tr>
-<td>tos_accepted.web_custom_audience_tos</td>
-<td>int</td>
-<td>Whether the Facebook conversion tracking TOS have been accepted. If not accepted, the user needs to go to https://www.facebook.com/customaudiences/app/tos.</td>
-</tr>
-<tr>
-<td>adspixels</td>
-<td>array</td>
-<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/">Facebook conversion pixels</a> attached to the ad account.</td>
-</tr>
-<tr>
-<td>applications</td>
-<td>array</td>
-<td>List of <a href="https://developers.facebook.com/docs/graph-api/reference/application">Facebook apps</a> attached to the ad account.</td>
-</tr>
-<tr>
-<td>customaudiences</td>
-<td>array</td>
-<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/custom-audience">Facebook custom audiences</a> attached to the ad account.</td>
-</tr>
-<tr>
-<td>customconversions</td>
-<td>array</td>
-<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/custom-conversion/">Facebook custom conversions</a> attached to the ad account.</td>
-</tr>
-<tr>
-<td>saved_audiences</td>
-<td>array</td>
-<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/saved-audience">Facebook saved audiences</a> attached to the ad account.</td>
-</tr>
-</tbody></table>
-<h2 id='get-a-user-39-s-ad-accounts'>Get A User&#39;s Ad Accounts</h2>
-<blockquote>
-<p>Sample Request</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.toneden.io/api/v1/users/1000/advertising/accounts?platform=facebook"</span>
-    -H <span class="s2">"Authorization: Bearer &lt;Token&gt;"</span>
-</code></pre>
-<blockquote>
-<p>Sample Response</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"accounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"act_246197557"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nick Elsbree"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"spend_cap"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"timezone_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"America/Los_Angeles"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"timezone_offset_hours_utc"</span><span class="p">:</span><span class="w"> </span><span class="mi">-7</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"tos_accepted"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"custom_audience_tos"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"web_custom_audience_tos"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"applications"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"536426523079089"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ToneDen"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"object_store_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"itunes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://itunes.apple.com/app/id959806828"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"fb_canvas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.toneden.io/auth/facebook/callback"</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="s2">"customaudiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"approximate_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"delivery_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This audience is ready for use."</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Instagram Engagers"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Instagram Business"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6086376596755"</span><span class="w">
-        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"approximate_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2134100</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"delivery_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This audience is ready for use."</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lookalike of ToneDen Engagers"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LOOKALIKE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6085700513155"</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="s2">"customconversions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"custom_event_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CONTENT_VIEW"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Link Click Event"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"pixel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"471224396398376"</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"rule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"link_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="s2">"eq"</span><span class="p">:</span><span class="w"> </span><span class="mi">139</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1199955936750081"</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="s2">"saved_audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"age_max"</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"age_min"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"geo_locations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-                        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3847"</span><span class="p">,</span><span class="w">
-                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"California"</span><span class="p">,</span><span class="w">
-                        </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="w">
-                    </span><span class="p">}],</span><span class="w">
-                    </span><span class="s2">"location_types"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"home"</span><span class="p">,</span><span class="w"> </span><span class="s2">"recent"</span><span class="p">]</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"People In California"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6071586282355"</span><span class="w">
-        </span><span class="p">}]</span><span class="w">
-    </span><span class="p">}]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all ad accounts that are accessible by the specified ToneDen user.</p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>platform</td>
-<td>string</td>
-<td>yes</td>
-<td>The external advertising platform to retrieve accounts for. Currently the only valid value is &#39;facebook&#39;.</td>
-</tr>
-</tbody></table>
-<h1 id='pages'>Pages</h1>
-<p>Facebook pages represent the public-facing profile of a business, brand, artist, or other entity. They can post content, get liked by their fans, and run ads. Every ad on Facebook appears as a post by a Facebook page.</p>
-
-<p>Similar to an ad account, the owner of a Facebook page can grant multiple Facebook users access to a page, and each Facebook user can access multiple Facebook pages.</p>
-<h2 id='page-model'>Page Model</h2>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>category</td>
-<td>string</td>
-<td>The type of entity that this page represents.</td>
-</tr>
-<tr>
-<td>events</td>
-<td>array</td>
-<td>A list of <a href="https://developers.facebook.com/docs/graph-api/reference/event">Facebook events</a> owned by the page.</td>
-</tr>
-<tr>
-<td>fan_count</td>
-<td>int</td>
-<td>The number of people who have liked this page.</td>
-</tr>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>The page&#39;s unique ID.</td>
-</tr>
-<tr>
-<td>instagram_accounts</td>
-<td>array</td>
-<td>The list of <a href="https://developers.facebook.com/docs/graph-api/reference/instagram-user/">Instagram accounts</a> attached to this page. If this is empty, the user cannot run Instagram ads.</td>
-</tr>
-<tr>
-<td>link</td>
-<td>string</td>
-<td>The URL of the page on Facebook.</td>
-</tr>
-<tr>
-<td>picture</td>
-<td>object</td>
-<td>The page&#39;s profile picture.</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>The page&#39;s name.</td>
-</tr>
-<tr>
-<td>posts</td>
-<td>array</td>
-<td>A list of <a href="https://developers.facebook.com/docs/graph-api/reference/post/">posts</a> made by the page.</td>
-</tr>
-</tbody></table>
-<h2 id='get-a-user-39-s-pages'>Get A User&#39;s Pages</h2>
-<blockquote>
-<p>Sample Request</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.toneden.io/api/v1/users/1000/pages"</span>
-    -H <span class="s2">"Authorization: Bearer &lt;Token&gt;"</span>
-</code></pre>
-<blockquote>
-<p>Sample Response</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"pages"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"614903758559916"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.facebook.com/toneden.io/"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ToneDen"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"App Page"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"fan_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">32676</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"picture"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"is_silhouette"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/15873468_1398448583538759_3413325947102951099_n.png?oh=899cafda512fd037048bdf740c654039&amp;oe=59EBEC77"</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"instagram_accounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"toneden_io"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"623060124461249"</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="s2">"events"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Party Favor SF 1/19"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-01-19T00:00:00-0800"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1377845419144147"</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="s2">"posts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Contests are an extremely effective tool in your social marketing strategy. 🏆</span><span class="se">\n\n</span><span class="s2">Our latest case study breaks down how NGHTMRE uses giveaways to capture data on his audience. 👇"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"created_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-02T17:42:36+0000"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"614903758559916_1618352981548317"</span><span class="w">
-        </span><span class="p">}]</span><span class="w">
-    </span><span class="p">}]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all Facebook pages that are accessible by the specified ToneDen user.</p>
 <h1 id='ad-campaigns'>Ad Campaigns</h1>
 <p>An ad campaign represents an amount of money that will be spent over a given time period to accomplish a specific objective.</p>
 <h2 id='ad-campaign-model'>Ad Campaign Model</h2>
@@ -846,12 +581,12 @@
 <tr>
 <td>cities</td>
 <td>array</td>
-<td>An array of objects containing &#39;id&#39;, &#39;name&#39;, and optional &#39;radius&#39; attributes that define cities to target users in. Cities can be retrieved using the <a href="#targeting-search-api">targeting search API</a>. The &#39;radius&#39; attribute is an integer between 10 and 50 that specifies the radius of a circle around the city. Users within that circle will be targeted.</td>
+<td>An array of objects containing &#39;id&#39;, &#39;name&#39;, and optional &#39;radius&#39; attributes that define cities to target users in. Cities can be retrieved using the <a href="#targeting-category-search">targeting search API</a>. The &#39;radius&#39; attribute is an integer between 10 and 50 that specifies the radius of a circle around the city. Users within that circle will be targeted.</td>
 </tr>
 <tr>
 <td>regions</td>
 <td>array</td>
-<td>An array of objects containing &#39;id&#39; and &#39;name&#39; attributes. Regions are typically states or provinces, and can be retrieved using the <a href="#targeting-search-api">targeting search API</a>.</td>
+<td>An array of objects containing &#39;id&#39; and &#39;name&#39; attributes. Regions are typically states or provinces, and can be retrieved using the <a href="#targeting-category-search">targeting search API</a>.</td>
 </tr>
 <tr>
 <td>countries</td>
@@ -915,6 +650,994 @@
 <td>link</td>
 <td>array</td>
 <td>If <code>is_carousel</code> is true, this field can be used to set the links of individual carousel items.</td>
+</tr>
+</tbody></table>
+<h2 id='create-an-ad-campaign'>Create an Ad Campaign</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/campaigns <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span> <span class="se">\</span>
+    -d <span class="s1">'{
+        "platform": "facebook",
+        "title": "Website Traffic",
+        "user_id": null,
+        "optimization_id": "CONTENT_VIEW",
+        "objective": "471224396398376",
+        "target": "www.toneden.io",
+        "target_type": "conversion",
+        "app_deep_link_url": null,
+        "app_store_url": null,
+        "creatives": {
+            "id": [],
+            "is_carousel": false,
+            "cta_type": ["learnMore"],
+            "link": [],
+            "link_description": ["Click to find out more!"],
+            "headline": ["Create Ads Even Easier"],
+            "display_asset": [{
+                "image_hash": "9e1ef0776fb09fc488dd834fe3505513",
+                "image_url": "https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&amp;oe=5A35B1B5"
+            }, {
+                "image_url": "https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&amp;oe=59F073EB",
+                "type": "video",
+                "video_id": "10154988045646798",
+                "video_url": "https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&amp;rl=2034&amp;vabr=1356&amp;oh=04a4df86e0f49c047b43a2c471febdc2&amp;oe=598E3846"
+            }],
+            "deep_link": [],
+            "text": ["ToneDen\'</span>s new API is out!<span class="s2">"],
+            "</span><span class="nb">type</span><span class="s2">": [],
+            "</span>clientHeight<span class="s2">": [],
+            "</span>clientWidth<span class="s2">": []
+        },
+        "</span>audiences<span class="s2">": [{
+            "</span>targeting<span class="s2">": {
+                "</span>age<span class="s2">": {
+                    "</span>min<span class="s2">": 25,
+                    "</span>max<span class="s2">": 34
+                },
+                "</span>cities<span class="s2">": [],
+                "</span>countries<span class="s2">": [],
+                "</span>gender<span class="s2">": null,
+                "</span>flexible_spec<span class="s2">": [],
+                "</span>exclusions<span class="s2">": null,
+                "</span>regions<span class="s2">": [],
+                "</span>publisher_platforms<span class="s2">": ["</span>facebook<span class="s2">"],
+                "</span>saved_audience_id<span class="s2">": null
+            },
+            "</span>data_source_platform<span class="s2">": "</span>facebook<span class="s2">",
+            "</span>data_source<span class="s2">": "</span>page-likes<span class="s2">",
+            "</span>filters<span class="s2">": ["</span>age<span class="s2">"],
+            "</span>page_ids<span class="s2">": ["</span>614903758559916<span class="s2">"],
+            "</span>is_lookalike<span class="s2">": false
+        }, {
+            "</span>targeting<span class="s2">": {
+                "</span>age<span class="s2">": {
+                    "</span>min<span class="s2">": "</span>18<span class="s2">",
+                    "</span>max<span class="s2">": "</span>30<span class="s2">"
+                },
+                "</span>cities<span class="s2">": [{
+                    "</span>name<span class="s2">": "</span>Los Angeles<span class="s2">",
+                    "</span>radius<span class="s2">": 20,
+                    "</span>id<span class="s2">": "</span>2420379<span class="s2">"
+                }],
+                "</span>countries<span class="s2">": [],
+                "</span>gender<span class="s2">": null,
+                "</span>flexible_spec<span class="s2">": [{
+                    "</span>behaviors<span class="s2">": [],
+                    "</span>demographics<span class="s2">": [{
+                        "</span>name<span class="s2">": "</span>High school grad<span class="s2">",
+                        "</span>audience_size<span class="s2">": 262891769,
+                        "</span><span class="nb">type</span><span class="s2">": "</span>education_statuses<span class="s2">",
+                        "</span>id<span class="s2">": "</span>4<span class="s2">"
+                    }, {
+                        "</span>name<span class="s2">": "</span>High school grad<span class="s2">",
+                        "</span>audience_size<span class="s2">": 262891769,
+                        "</span><span class="nb">type</span><span class="s2">": "</span>education_statuses<span class="s2">",
+                        "</span>id<span class="s2">": "</span>4<span class="s2">"
+                    }],
+                    "</span>interests<span class="s2">": [{
+                        "</span>name<span class="s2">": "</span>EDM<span class="s2">",
+                        "</span>id<span class="s2">": "</span>6003336551848<span class="s2">"
+                    }]
+                }],
+                "</span>exclusions<span class="s2">": {
+                    "</span>behaviors<span class="s2">": [],
+                    "</span>demographics<span class="s2">": [],
+                    "</span>interests<span class="s2">": [{
+                        "</span>name<span class="s2">": "</span>Skrillex<span class="s2">",
+                        "</span>id<span class="s2">": "</span>6003350444039<span class="s2">"
+                    }]
+                },
+                "</span>regions<span class="s2">": [],
+                "</span>publisher_platforms<span class="s2">": ["</span>facebook<span class="s2">", "</span>instagram<span class="s2">"],
+                "</span>saved_audience_id<span class="s2">": null
+            },
+            "</span>data_source_platform<span class="s2">": "</span>facebook<span class="s2">",
+            "</span>data_source<span class="s2">": "</span>interests<span class="s2">",
+            "</span>is_lookalike<span class="s2">": false
+        }],
+        "</span>report_emails<span class="s2">": ["</span>renegadelsbree@gmail.com<span class="s2">"],
+        "</span>targeting<span class="s2">": {},
+        "</span>budget_type<span class="s2">": "</span>lifetime<span class="s2">",
+        "</span>budget_amount<span class="s2">": 10000,
+        "</span>external_ad_account_id<span class="s2">": "</span>act_246197557<span class="s2">",
+        "</span>external_poster_id<span class="s2">": "</span>614903758559916<span class="s2">",
+        "</span>start_timestamp<span class="s2">": 1502326086,
+        "</span>end_timestamp<span class="s2">": 1502585289,
+        "</span>currency<span class="s2">": "</span>USD<span class="s2">",
+        "</span>status<span class="s2">": "</span>active<span class="s2">"
+    }'
+</span></code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"campaign"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"status_log"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T00:50:56.825Z"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"campaign_created"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"start_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502326086</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T00:48:06.000Z"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"campaign_started"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"creatives"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"ToneDen's new API is out!"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"cta_type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"learnMore"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"headline"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Create Ads Even Easier"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"deep_link"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"clientWidth"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"is_carousel"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"clientHeight"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"display_asset"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&amp;oe=5A35B1B5"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"image_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9e1ef0776fb09fc488dd834fe3505513"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"video_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10154988045646798"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&amp;oe=59F073EB"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"video_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&amp;rl=2034&amp;vabr=1356&amp;oh=04a4df86e0f49c047b43a2c471febdc2&amp;oe=598E3846"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"link_description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Click to find out more!"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"skip_auto_fanlink"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"skip_autocombine_creatives"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"skip_budget_optimization"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"targeting_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"is_fanlink_conversion"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"mock_insights"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">384</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Website Traffic"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"facebook"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"report_emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"renegadelsbree@gmail.com"</span><span class="p">],</span><span class="w">
+        </span><span class="s2">"objective"</span><span class="p">:</span><span class="w"> </span><span class="s2">"471224396398376"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"optimization_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CONTENT_VIEW"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.toneden.io"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"target_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"conversion"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+        </span><span class="s2">"app_deep_link_url"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"app_store_url"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"filters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"age"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"page_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"614903758559916"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"cities"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"countries"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"exclusions"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"flexible_spec"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"saved_audience_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"publisher_platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"facebook"</span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"data_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"page-likes"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"is_lookalike"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"data_source_platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"facebook"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"cities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2420379"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Los Angeles"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"radius"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w">
+                </span><span class="p">}],</span><span class="w">
+                </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"countries"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"exclusions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"behaviors"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                    </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6003350444039"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Skrillex"</span><span class="w">
+                    </span><span class="p">}],</span><span class="w">
+                    </span><span class="s2">"demographics"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"flexible_spec"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"behaviors"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                    </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6003336551848"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EDM"</span><span class="w">
+                    </span><span class="p">}],</span><span class="w">
+                    </span><span class="s2">"demographics"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"High school grad"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"education_statuses"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"audience_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">262891769</span><span class="w">
+                    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"High school grad"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"education_statuses"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"audience_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">262891769</span><span class="w">
+                    </span><span class="p">}]</span><span class="w">
+                </span><span class="p">}],</span><span class="w">
+                </span><span class="s2">"saved_audience_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"publisher_platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"facebook"</span><span class="p">,</span><span class="w"> </span><span class="s2">"instagram"</span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"data_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"interests"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"is_lookalike"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"data_source_platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"facebook"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"budget_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lifetime"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"budget_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"start_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502326086</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"end_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502585289</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"external_ad_account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"act_246197557"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"external_poster_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"614903758559916"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T00:50:56.827Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-10T00:50:56.827Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"status_message"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"phase"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"reach"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"clicks"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpc"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ctr"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"target_link_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"target_link_url"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversions"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_rate"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cost_per_conversion"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_value"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>When creating a campaign, the request body should be a campaign model. If the campaign isn&#39;t ready to be launched yet, the <code>status</code> field should equal &#39;draft&#39;. Otherwise, the campaign will immediately be added to Facebook. While the campaign is being added to Facebook, the ToneDen backend will set its <code>status</code> to &#39;pending&#39;. The creation process can take anywhere from a few seconds to 20 minutes, depending on the audience types used.</p>
+
+<p>Once the campaign has been created on Facebook, the backend will set its <code>status</code> to either &#39;active&#39; or &#39;error&#39;, if the campaign failed to create. When campaigns fail to create, their <code>status_message</code> field will contain a description of the problem.</p>
+<h1 id='ad-accounts'>Ad Accounts</h1>
+<p>Ad accounts are entities that can run ads on Facebook. Every ad campaign on Facebook is run through an ad account, and the budget of that ad is charged to the payment method attached to the ad account that owns the campaign.</p>
+
+<p>The owner of a Facebook ad account can grant access to the ad account to multiple Facebook users, and each Facebook user can access to multiple ad accounts.</p>
+<h2 id='ad-account-model'>Ad Account Model</h2>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount_spent</td>
+<td>double</td>
+<td>The total amount of money this ad account has spent on ads.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>The three-letter code of the currency that this ad account uses.</td>
+</tr>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Unique ID of the ad account (assigned by Facebook).</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Name of the ad account.</td>
+</tr>
+<tr>
+<td>spend_cap</td>
+<td>double</td>
+<td>The spend limit of the ad account. 0 means there is no limit.</td>
+</tr>
+<tr>
+<td>timezone_name</td>
+<td>string</td>
+<td>The name of the timezone that this ad account is in.</td>
+</tr>
+<tr>
+<td>timezone_offset_hours_utc</td>
+<td>int</td>
+<td>The number of hours that the timezone is offset from UTC time.</td>
+</tr>
+<tr>
+<td>tos_accepted</td>
+<td>object</td>
+<td>The Facebook terms of service that this ad account has accepted.</td>
+</tr>
+<tr>
+<td>tos_accepted.custom_audience_tos</td>
+<td>int</td>
+<td>Whether the Facebook custom audience TOS have been accepted. If not accepted, the user needs to go to https://www.facebook.com/ads/manage/customaudiences/tos.php.</td>
+</tr>
+<tr>
+<td>tos_accepted.web_custom_audience_tos</td>
+<td>int</td>
+<td>Whether the Facebook conversion tracking TOS have been accepted. If not accepted, the user needs to go to https://www.facebook.com/customaudiences/app/tos.</td>
+</tr>
+<tr>
+<td>adspixels</td>
+<td>array</td>
+<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/">Facebook conversion pixels</a> attached to the ad account.</td>
+</tr>
+<tr>
+<td>applications</td>
+<td>array</td>
+<td>List of <a href="https://developers.facebook.com/docs/graph-api/reference/application">Facebook apps</a> attached to the ad account.</td>
+</tr>
+<tr>
+<td>customaudiences</td>
+<td>array</td>
+<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/custom-audience">Facebook custom audiences</a> attached to the ad account.</td>
+</tr>
+<tr>
+<td>customconversions</td>
+<td>array</td>
+<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/custom-conversion/">Facebook custom conversions</a> attached to the ad account.</td>
+</tr>
+<tr>
+<td>saved_audiences</td>
+<td>array</td>
+<td>List of <a href="https://developers.facebook.com/docs/marketing-api/reference/saved-audience">Facebook saved audiences</a> attached to the ad account.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-user-39-s-ad-accounts'>Get A User&#39;s Ad Accounts</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/users/1000/advertising/accounts?platform<span class="o">=</span>facebook <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"accounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"act_246197557"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nick Elsbree"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"spend_cap"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"timezone_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"America/Los_Angeles"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"timezone_offset_hours_utc"</span><span class="p">:</span><span class="w"> </span><span class="mi">-7</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tos_accepted"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"custom_audience_tos"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"web_custom_audience_tos"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"applications"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"536426523079089"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ToneDen"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"object_store_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"itunes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://itunes.apple.com/app/id959806828"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"fb_canvas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.toneden.io/auth/facebook/callback"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"customaudiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"approximate_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"delivery_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This audience is ready for use."</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Instagram Engagers"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Instagram Business"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6086376596755"</span><span class="w">
+        </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"approximate_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2134100</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"delivery_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This audience is ready for use."</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lookalike of ToneDen Engagers"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LOOKALIKE"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6085700513155"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"customconversions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"custom_event_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CONTENT_VIEW"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Link Click Event"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"pixel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"471224396398376"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"rule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"link_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"eq"</span><span class="p">:</span><span class="w"> </span><span class="mi">139</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1199955936750081"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"saved_audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"age_max"</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"age_min"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"geo_locations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3847"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"California"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="w">
+                    </span><span class="p">}],</span><span class="w">
+                    </span><span class="s2">"location_types"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"home"</span><span class="p">,</span><span class="w"> </span><span class="s2">"recent"</span><span class="p">]</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"People In California"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6071586282355"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all ad accounts that are accessible by the specified ToneDen user.</p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>platform</td>
+<td>string</td>
+<td>yes</td>
+<td>The external advertising platform to retrieve accounts for. Currently the only valid value is &#39;facebook&#39;.</td>
+</tr>
+</tbody></table>
+<h1 id='pages'>Pages</h1>
+<p>Facebook pages represent the public-facing profile of a business, brand, artist, or other entity. They can post content, get liked by their fans, and run ads. Every ad on Facebook appears as a post by a Facebook page.</p>
+
+<p>Similar to an ad account, the owner of a Facebook page can grant multiple Facebook users access to a page, and each Facebook user can access multiple Facebook pages.</p>
+<h2 id='page-model'>Page Model</h2>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>category</td>
+<td>string</td>
+<td>The type of entity that this page represents.</td>
+</tr>
+<tr>
+<td>events</td>
+<td>array</td>
+<td>A list of <a href="https://developers.facebook.com/docs/graph-api/reference/event">Facebook events</a> owned by the page.</td>
+</tr>
+<tr>
+<td>fan_count</td>
+<td>int</td>
+<td>The number of people who have liked this page.</td>
+</tr>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>The page&#39;s unique ID.</td>
+</tr>
+<tr>
+<td>instagram_accounts</td>
+<td>array</td>
+<td>The list of <a href="https://developers.facebook.com/docs/graph-api/reference/instagram-user/">Instagram accounts</a> attached to this page. If this is empty, the user cannot run Instagram ads.</td>
+</tr>
+<tr>
+<td>link</td>
+<td>string</td>
+<td>The URL of the page on Facebook.</td>
+</tr>
+<tr>
+<td>picture</td>
+<td>object</td>
+<td>The page&#39;s profile picture.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The page&#39;s name.</td>
+</tr>
+<tr>
+<td>posts</td>
+<td>array</td>
+<td>A list of <a href="https://developers.facebook.com/docs/graph-api/reference/post/">posts</a> made by the page.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-user-39-s-pages'>Get A User&#39;s Pages</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/users/1000/pages <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"pages"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"614903758559916"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.facebook.com/toneden.io/"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ToneDen"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"App Page"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fan_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">32676</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"picture"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"is_silhouette"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/15873468_1398448583538759_3413325947102951099_n.png?oh=899cafda512fd037048bdf740c654039&amp;oe=59EBEC77"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"instagram_accounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"toneden_io"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"623060124461249"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"events"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Party Favor SF 1/19"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-01-19T00:00:00-0800"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1377845419144147"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"posts"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Contests are an extremely effective tool in your social marketing strategy. 🏆</span><span class="se">\n\n</span><span class="s2">Our latest case study breaks down how NGHTMRE uses giveaways to capture data on his audience. 👇"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-02T17:42:36+0000"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"614903758559916_1618352981548317"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all Facebook pages that are accessible by the specified ToneDen user.</p>
+<h1 id='targeting'>Targeting</h1>
+<p>Endpoints in this section assist advertisers in generating targeting specs for their audiences. For more information on the structure of audiences in ad campaigns, see the <a href="#targeting-spec">targeting spec documentation</a>.</p>
+<h2 id='get-audience-sizes'>Get Audience Sizes</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/audienceSizes <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"eventbrite"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"mailchimp"</span><span class="p">:</span><span class="w"> </span><span class="mi">18458</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"shopify"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"toneden"</span><span class="p">:</span><span class="w"> </span><span class="mi">38193</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint returns the number of fans available to access on several of the external data platforms that the ToneDen backend uses to generate audiences. It should be used to determine which values of <code>data_source_platform</code> the advertiser is eligible to use.</p>
+
+<p>For example, if the endpoint says that an advertiser has only 60 fans available on Eventbrite, they will not be able to use Eventbrite audiences, as this isn&#39;t enough fans to advertise to on Facebook. We typically advise that users have at least 200 fans on a platform before they use it as the source of an advertising audience.</p>
+<h2 id='get-past-audiences'>Get Past Audiences</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/pastAudiences <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"606716507093"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpc"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.51</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ctr"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.77777777777778</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Contest Entries Lookalike"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"clicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"cities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2538983"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Richmond"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3851"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Washington, District of Columbia"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3863"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Maryland"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"countries"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"flexible_spec"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"behaviors"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"demographics"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"custom_audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"6065995355093"</span><span class="p">],</span><span class="w">
+            </span><span class="s2">"saved_audience_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"publisher_platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"facebook"</span><span class="p">,</span><span class="w"> </span><span class="s2">"instagram"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"conversions"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.51</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"is_lookalike"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">16.6666666666667</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cost_per_conversion"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.085</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source_platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"toneden"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_end_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1489798832</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Concert - 3.17.17"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"606664700891"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpc"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.056</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ctr"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.624609618988132</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lookalike of Engaged ToneDen Fans"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">1449</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"clicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"cities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2427178"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Washington"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"countries"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"flexible_spec"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"behaviors"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"demographics"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"saved_audience_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"publisher_platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"facebook"</span><span class="p">,</span><span class="w"> </span><span class="s2">"instagram"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"conversions"</span><span class="p">:</span><span class="w"> </span><span class="mi">217</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"top-fans"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.56</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"is_lookalike"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">13.5540287320425</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cost_per_conversion"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0947465437788018</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source_platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"toneden"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_end_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1496622613</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Artist Boost"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"607538949893"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cpc"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.19544117647059</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ctr"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.524165574655053</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ohio 18-35"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">8070</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"clicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">68</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"targeting"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"cities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2442198"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fort Wayne"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2467497"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Detroit"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2498071"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Akron"</span><span class="w">
+            </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2498826"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cincinnati"</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"regions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"countries"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"exclusions"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flexible_spec"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                </span><span class="s2">"interests"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6002900631422"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12th Planet (musician)"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6002985077920"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KJ SAWKA"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6003179442414"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cookie Monsta Official"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6003257276013"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Excision (musician)"</span><span class="w">
+                </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6003263352875"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datsik (musician)"</span><span class="w">
+                </span><span class="p">}]</span><span class="w">
+            </span><span class="p">}],</span><span class="w">
+            </span><span class="s2">"custom_audiences"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"saved_audience_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"607437033893"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"publisher_platforms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"facebook"</span><span class="p">,</span><span class="w"> </span><span class="s2">"instagram"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"conversions"</span><span class="p">:</span><span class="w"> </span><span class="mi">1751</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount_spent"</span><span class="p">:</span><span class="w"> </span><span class="mf">149.29</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"is_lookalike"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">13.4972635473676</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"conversion_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cost_per_conversion"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0852598515134209</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data_source_platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"facebook"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_end_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502337554</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"campaign_title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Artist Boost"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint returns audiences that the user has used in previous ToneDen campaigns, ordered in descending order of performance.
+It is meant to aid advertisers in creating audiences, by showing them audiences that have worked before and suggesting that they use similar audiences.</p>
+<h2 id='targeting-category-search'>Targeting Category Search</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/search?platform<span class="o">=</span>facebook&amp;query<span class="o">=</span>new%20york&amp;type<span class="o">=</span>location <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3875"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"region"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2490299"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3875</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2429126"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Florida"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3852</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2490260"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New City"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3875</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2490287"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New Rochelle"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3875</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2485267"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"West New York"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New Jersey"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3873</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"813552"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York, Norfolk"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"city"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United Kingdom"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"England"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"region_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4079</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_region"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"supports_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Since not all locations or interests are available for targeting through Facebook ads, advertisers need to be able to search locations and interests that are available on Facebook.
+Given a search query, this endpoint returns either locations or interests that match the query.</p>
+
+<p>Responses are returned directly from the <code>adgeolocation</code> and <code>adinterest</code> <a href="https://developers.facebook.com/docs/marketing-api/targeting-search/v2.10">Facebook search API</a>, so see that documentation for the response format.</p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>platform</td>
+<td>string</td>
+<td>yes</td>
+<td>The platform to target ads on. The only valid value is &#39;facebook&#39;.</td>
+</tr>
+<tr>
+<td>query</td>
+<td>string</td>
+<td>yes</td>
+<td>The string to search the Facebook targeting API for.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>yes</td>
+<td>The type of targeting parameter to search for. Either &#39;interest&#39; or &#39;location&#39;.</td>
+</tr>
+</tbody></table>
+<h2 id='create-a-reach-estimate'>Create a Reach Estimate</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/reachEstimate <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span> <span class="se">\</span>
+    -d <span class="s1">'{
+        "platform": "facebook",
+        "audiences": [{
+            "targeting": {
+                "age": {
+                    "min": 25,
+                    "max": 34
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [],
+                "exclusions": null,
+                "regions": [],
+                "publisher_platforms": ["facebook", "instagram"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "page-likes",
+            "filters": ["age"],
+            "page_ids": ["614903758559916"],
+            "is_lookalike": false
+        }, {
+            "data_source_platform": "facebook",
+            "data_source": "interests",
+            "is_lookalike": false,
+            "targeting": {
+                "age": {
+                    "min": "18",
+                    "max": "25"
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [{
+                    "interests": [{
+                        "name": "Metallica",
+                        "id": "6003261805314"
+                    }, {
+                        "name": "Slayer",
+                        "id": "6003358694204"
+                    }, {
+                        "name": "Anthrax (American band)",
+                        "id": "6003587129303"
+                    }]
+                }],
+                "exclusions": null,
+                "regions": [{
+                    "name": "California",
+                    "id": "3847"
+                }],
+                "publisher_platforms": ["instagram"],
+                "custom_audiences": []
+            }
+        }],
+        "budget_type": "lifetime",
+        "budget_amount": 10000,
+        "external_ad_account_id": "act_246197557",
+        "start_timestamp": 1502393445,
+        "end_timestamp": 1502652648
+    }'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"estimates"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4200</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">510000</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>While in the process of creating audiences for an ad campaign, it can be useful to know how large an audience is going to be. If an audience is too small, it may cost a lot to show ads to people in it, but if an audience is too large then the targeting may not be specific enough.</p>
+
+<p>This endpoint allows advertisers to get an estimate of how large their audiences are. The response will include an estimate for each audience.
+For certain types of audiences, we aren&#39;t able to get a real-time size estimate until the campaign has been fully created.
+For new campaigns, only audiences with the <code>data_source_platform</code> set to &#39;facebook&#39; and <code>is_lookalike</code> set to false will be able to get accurate reach estimates. Other estimates should not be shown to the advertiser.</p>
+<h3 id='body-parameters'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>budget_type</td>
+<td>string</td>
+<td>yes</td>
+<td>Either &#39;daily&#39; or &#39;lifetime&#39;. The higher the budget of the campaign is, the more people it will reach.</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>string</td>
+<td>yes</td>
+<td>The platform to get reach estimates from. Currently, the only valid value is &#39;facebook&#39;.</td>
+</tr>
+<tr>
+<td>start_timestamp</td>
+<td>int</td>
+<td>no</td>
+<td>When the <code>budget_type</code> is &#39;lifetime&#39;, both <code>start_timestamp</code> and <code>end_timestamp</code> must be specified, as the amount of budget spent per day is used to determine the reach estimate.</td>
+</tr>
+<tr>
+<td>end_timestamp</td>
+<td>int</td>
+<td>no</td>
+<td></td>
+</tr>
+<tr>
+<td>external_ad_account_id</td>
+<td>string</td>
+<td>yes</td>
+<td>The ad account that the ad will be run under.</td>
+</tr>
+<tr>
+<td>audiences</td>
+<td>array</td>
+<td>yes</td>
+<td>The list of audiences to get reach estimates for.</td>
 </tr>
 </tbody></table>
 <h1 id='ad-creation-flow'>Ad Creation Flow</h1>
