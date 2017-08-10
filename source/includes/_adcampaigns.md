@@ -71,8 +71,8 @@ Attribute | Type | Description
 age | object | An object containing 'min' and 'max' attributes that defined the minimum and maximum age of users to show ads to.
 gender | string | Either 'm' or 'f'.
 publisher_platforms | string | The list of platforms to show the ads on. The array can currently include 'facebook' and 'instagram'.
-cities | array | An array of objects containing 'id', 'name', and optional 'radius' attributes that define cities to target users in. Cities can be retrieved using the [targeting search API](#targeting-search-api). The 'radius' attribute is an integer between 10 and 50 that specifies the radius of a circle around the city. Users within that circle will be targeted.
-regions | array | An array of objects containing 'id' and 'name' attributes. Regions are typically states or provinces, and can be retrieved using the [targeting search API](#targeting-search-api).
+cities | array | An array of objects containing 'id', 'name', and optional 'radius' attributes that define cities to target users in. Cities can be retrieved using the [targeting search API](#targeting-category-search). The 'radius' attribute is an integer between 10 and 50 that specifies the radius of a circle around the city. Users within that circle will be targeted.
+regions | array | An array of objects containing 'id' and 'name' attributes. Regions are typically states or provinces, and can be retrieved using the [targeting search API](#targeting-category-search).
 countries | array | An array of objects containing 'id' and 'name' attributes. If no country is defined, ads will show to users in the United States.
 flexible_spec | array | A list of objects with `interests`, `behaviors`, and `demographics` attributes.
 exclusions | object | An object with `interests`, `behaviors`, and `demographics` attributes. Only users who do not match the specified parameters will be targeted.
@@ -92,3 +92,279 @@ link_description | array | The text that will appear under the link in the ad.
 display_asset | array | An array of objects with a `type` parameter equal to 'video' or 'image'. Each object represents a video or image to be displayed in the ad. Videos should have `video_id`, `video_url`, and `image_url` (for the video thumbnail) fields, and images should have `image_hash` and `image_url` fields.
 is_carousel | boolean | Whether the creative should be displayed as a carousel of images. A carousel ad must have between 2 and 10 images or videos in it.
 link | array | If `is_carousel` is true, this field can be used to set the links of individual carousel items.
+
+## Create an Ad Campaign
+
+> Sample Request
+
+```shell
+curl https://www.toneden.io/api/v1/advertising/campaigns \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer <Token>' \
+    -d '{
+        "platform": "facebook",
+        "title": "Website Traffic",
+        "user_id": null,
+        "optimization_id": "CONTENT_VIEW",
+        "objective": "471224396398376",
+        "target": "www.toneden.io",
+        "target_type": "conversion",
+        "app_deep_link_url": null,
+        "app_store_url": null,
+        "creatives": {
+            "id": [],
+            "is_carousel": false,
+            "cta_type": ["learnMore"],
+            "link": [],
+            "link_description": ["Click to find out more!"],
+            "headline": ["Create Ads Even Easier"],
+            "display_asset": [{
+                "image_hash": "9e1ef0776fb09fc488dd834fe3505513",
+                "image_url": "https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&oe=5A35B1B5"
+            }, {
+                "image_url": "https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&oe=59F073EB",
+                "type": "video",
+                "video_id": "10154988045646798",
+                "video_url": "https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=2034&vabr=1356&oh=04a4df86e0f49c047b43a2c471febdc2&oe=598E3846"
+            }],
+            "deep_link": [],
+            "text": ["ToneDen\'s new API is out!"],
+            "type": [],
+            "clientHeight": [],
+            "clientWidth": []
+        },
+        "audiences": [{
+            "targeting": {
+                "age": {
+                    "min": 25,
+                    "max": 34
+                },
+                "cities": [],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [],
+                "exclusions": null,
+                "regions": [],
+                "publisher_platforms": ["facebook"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "page-likes",
+            "filters": ["age"],
+            "page_ids": ["614903758559916"],
+            "is_lookalike": false
+        }, {
+            "targeting": {
+                "age": {
+                    "min": "18",
+                    "max": "30"
+                },
+                "cities": [{
+                    "name": "Los Angeles",
+                    "radius": 20,
+                    "id": "2420379"
+                }],
+                "countries": [],
+                "gender": null,
+                "flexible_spec": [{
+                    "behaviors": [],
+                    "demographics": [{
+                        "name": "High school grad",
+                        "audience_size": 262891769,
+                        "type": "education_statuses",
+                        "id": "4"
+                    }, {
+                        "name": "High school grad",
+                        "audience_size": 262891769,
+                        "type": "education_statuses",
+                        "id": "4"
+                    }],
+                    "interests": [{
+                        "name": "EDM",
+                        "id": "6003336551848"
+                    }]
+                }],
+                "exclusions": {
+                    "behaviors": [],
+                    "demographics": [],
+                    "interests": [{
+                        "name": "Skrillex",
+                        "id": "6003350444039"
+                    }]
+                },
+                "regions": [],
+                "publisher_platforms": ["facebook", "instagram"],
+                "saved_audience_id": null
+            },
+            "data_source_platform": "facebook",
+            "data_source": "interests",
+            "is_lookalike": false
+        }],
+        "report_emails": ["renegadelsbree@gmail.com"],
+        "targeting": {},
+        "budget_type": "lifetime",
+        "budget_amount": 10000,
+        "external_ad_account_id": "act_246197557",
+        "external_poster_id": "614903758559916",
+        "start_timestamp": 1502326086,
+        "end_timestamp": 1502585289,
+        "currency": "USD",
+        "status": "active"
+    }'
+```
+
+> Sample Response
+
+```json
+{
+	"campaign": {
+		"status": "active",
+		"status_log": [{
+			"date": "2017-08-10T00:50:56.825Z",
+			"type": "campaign_created",
+			"metadata": {
+				"status": "active",
+				"start_timestamp": 1502326086
+			}
+		}, {
+			"date": "2017-08-10T00:48:06.000Z",
+			"type": "campaign_started"
+		}],
+		"creatives": {
+			"id": [],
+			"link": [],
+			"text": ["ToneDen's new API is out!"],
+			"type": [],
+			"cta_type": ["learnMore"],
+			"headline": ["Create Ads Even Easier"],
+			"deep_link": [],
+			"clientWidth": [],
+			"is_carousel": false,
+			"clientHeight": [],
+			"display_asset": [{
+				"image_url": "https://scontent.xx.fbcdn.net/v/t45.1600-4/19479645_6084637973755_3358362424846581760_n.png?oh=8b3ac407e64c6355e5ea971e5fe6e40a&oe=5A35B1B5",
+				"image_hash": "9e1ef0776fb09fc488dd834fe3505513"
+			}, {
+				"type": "video",
+				"video_id": "10154988045646798",
+				"image_url": "https://scontent.xx.fbcdn.net/v/t15.0-10/16776602_10154988046821798_3360841836452118528_n.jpg?oh=d76d3a0444556d4ea7229a152590a88b&oe=59F073EB",
+				"video_url": "https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=2034&vabr=1356&oh=04a4df86e0f49c047b43a2c471febdc2&oe=598E3846"
+			}],
+			"link_description": ["Click to find out more!"]
+		},
+		"skip_auto_fanlink": false,
+		"skip_autocombine_creatives": false,
+		"skip_budget_optimization": false,
+		"targeting_type": "auto",
+		"is_fanlink_conversion": false,
+		"mock_insights": false,
+		"id": 384,
+		"title": "Website Traffic",
+		"platform": "facebook",
+		"report_emails": ["renegadelsbree@gmail.com"],
+		"objective": "471224396398376",
+		"optimization_id": "CONTENT_VIEW",
+		"target": "www.toneden.io",
+		"target_type": "conversion",
+		"targeting": {},
+		"app_deep_link_url": null,
+		"app_store_url": null,
+		"audiences": [{
+			"filters": ["age"],
+			"page_ids": ["614903758559916"],
+			"targeting": {
+				"age": {
+					"max": 34,
+					"min": 25
+				},
+				"cities": [],
+				"gender": null,
+				"regions": [],
+				"countries": [],
+				"exclusions": null,
+				"flexible_spec": [],
+				"saved_audience_id": null,
+				"publisher_platforms": ["facebook"]
+			},
+			"data_source": "page-likes",
+			"is_lookalike": false,
+			"data_source_platform": "facebook"
+		}, {
+			"targeting": {
+				"age": {
+					"max": "30",
+					"min": "18"
+				},
+				"cities": [{
+					"id": "2420379",
+					"name": "Los Angeles",
+					"radius": 20
+				}],
+				"gender": null,
+				"regions": [],
+				"countries": [],
+				"exclusions": {
+					"behaviors": [],
+					"interests": [{
+						"id": "6003350444039",
+						"name": "Skrillex"
+					}],
+					"demographics": []
+				},
+				"flexible_spec": [{
+					"behaviors": [],
+					"interests": [{
+						"id": "6003336551848",
+						"name": "EDM"
+					}],
+					"demographics": [{
+						"id": "4",
+						"name": "High school grad",
+						"type": "education_statuses",
+						"audience_size": 262891769
+					}, {
+						"id": "4",
+						"name": "High school grad",
+						"type": "education_statuses",
+						"audience_size": 262891769
+					}]
+				}],
+				"saved_audience_id": null,
+				"publisher_platforms": ["facebook", "instagram"]
+			},
+			"data_source": "interests",
+			"is_lookalike": false,
+			"data_source_platform": "facebook"
+		}],
+		"budget_type": "lifetime",
+		"budget_amount": 10000,
+		"currency": "USD",
+		"start_timestamp": 1502326086,
+		"end_timestamp": 1502585289,
+		"external_ad_account_id": "act_246197557",
+		"external_poster_id": "614903758559916",
+		"user_id": 1000,
+		"updatedAt": "2017-08-10T00:50:56.827Z",
+		"createdAt": "2017-08-10T00:50:56.827Z",
+		"status_message": null,
+		"amount_spent": null,
+		"phase": null,
+		"external_id": null,
+		"reach": null,
+		"clicks": null,
+		"cpc": null,
+		"ctr": null,
+		"target_link_id": null,
+		"target_link_url": null,
+		"conversions": null,
+		"conversion_rate": null,
+		"cost_per_conversion": null,
+		"conversion_value": null
+	}
+}
+```
+
+When creating a campaign, the request body should be a campaign model. If the campaign isn't ready to be launched yet, the `status` field should equal 'draft'. Otherwise, the campaign will immediately be added to Facebook. While the campaign is being added to Facebook, the ToneDen backend will set its `status` to 'pending'. The creation process can take anywhere from a few seconds to 20 minutes, depending on the audience types used.
+
+Once the campaign has been created on Facebook, the backend will set its `status` to either 'active' or 'error', if the campaign failed to create. When campaigns fail to create, their `status_message` field will contain a description of the problem.

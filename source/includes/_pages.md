@@ -23,8 +23,8 @@ posts | array | A list of [posts](https://developers.facebook.com/docs/graph-api
 > Sample Request
 
 ```shell
-curl "https://www.toneden.io/api/v1/users/1000/pages"
-    -H "Authorization: Bearer <Token>"
+curl https://www.toneden.io/api/v1/users/1000/pages \
+    -H 'Authorization: Bearer <Token>'
 ```
 
 > Sample Response
