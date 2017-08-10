@@ -30,6 +30,8 @@ saved_audiences | array | List of [Facebook saved audiences](https://developers.
 
 ```shell
 curl https://www.toneden.io/api/v1/users/1000/advertising/accounts?platform=facebook \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer <Token>'
 ```
 

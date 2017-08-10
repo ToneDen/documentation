@@ -8,6 +8,8 @@ Endpoints in this section assist advertisers in generating targeting specs for t
 
 ```shell
 curl https://www.toneden.io/api/v1/advertising/targeting/audienceSizes \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer <Token>'
 ```
 
@@ -34,6 +36,8 @@ For example, if the endpoint says that an advertiser has only 60 fans available 
 
 ```shell
 curl https://www.toneden.io/api/v1/advertising/targeting/pastAudiences \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer <Token>'
 ```
 
@@ -198,6 +202,8 @@ It is meant to aid advertisers in creating audiences, by showing them audiences 
 
 ```shell
 curl https://www.toneden.io/api/v1/advertising/targeting/search?platform=facebook&query=new%20york&type=location \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer <Token>'
 ```
 

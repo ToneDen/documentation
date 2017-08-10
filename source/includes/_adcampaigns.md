@@ -391,3 +391,51 @@ curl https://www.toneden.io/api/v1/advertising/campaigns \
 When creating a campaign, the request body should be a campaign model. If the campaign isn't ready to be launched yet, the `status` field should equal 'draft'. Otherwise, the campaign will immediately be added to Facebook. While the campaign is being added to Facebook, the ToneDen backend will set its `status` to 'pending'. The creation process can take anywhere from a few seconds to 20 minutes, depending on the audience types used.
 
 Once the campaign has been created on Facebook, the backend will set its `status` to either 'active' or 'error', if the campaign failed to create. When campaigns fail to create, their `status_message` field will contain a description of the problem.
+
+## Updating An Ad Campaign
+
+> Sample Request
+
+```shell
+curl https://www.toneden.io/api/v1/advertising/campaigns/384 \
+    -X PUT \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer <Token>' \
+    --d '{
+        "status":"paused"
+    }'
+```
+
+> Sample Response
+
+```json
+{
+    "campaign": <Ad Campaign Model>
+}
+```
+
+### Changing Campaign Status
+The effect that an update has on a campaign depends on the campaign's `status`.
+
+If a campaign was previously a draft, and its new `status` is active, the campaign will be created in Facebook, and it's `status` set to 'pending'.
+
+If a campaign's `status` is 'pending', then no updates can be made to it, as it is still being created.
+
+Active campaigns can be paused by setting their `status` to 'paused', and paused campaigns can be resumed by setting their `status` to 'active' again.
+
+To cancel a running campaign and return it to draft status, just set the `status` to 'draft' again. Note that this will remove any results from a running campaign, and is irreversible.
+
+### Updating Creatives
+
+Because ToneDen automatically generates combinations of every possible creative field, each field value in an ad's creative can refer to multiple ads on Facebook.
+This means that when the creatives for an ad are changed, we need to regenerate all the creative combinations in order to update the ads on Facebook.
+When the creative is updated, we delete all the old ads from Facebook and then re-create them with new creatives.
+This removes any engagement (likes, comments, reactions) from the ads.
+
+### Updating Audiences
+
+Over the course of a campaign, ToneDen will automatically shift a campaign's budget between its audiences.
+Audiences which are performing well will receive a larger portion of the budget.
+When audiences are added or removed from a campaign, however, the budget needs to be re-allocated to ensure that the entire budget of the campaign is still spread amongst the audiences.
+In order to ensure that new audiences get a chance to have their performance tested, the ToneDen backend will evenly redistribute budget among all the audiences.

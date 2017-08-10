@@ -15,7 +15,6 @@ includes:
     - adaccounts
     - pages
     - targeting
-    - adwalkthrough
 
 search: true
 ---

@@ -24,6 +24,8 @@ posts | array | A list of [posts](https://developers.facebook.com/docs/graph-api
 
 ```shell
 curl https://www.toneden.io/api/v1/users/1000/pages \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer <Token>'
 ```
 
