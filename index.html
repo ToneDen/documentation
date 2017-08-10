@@ -240,6 +240,9 @@
                   <li>
                     <a href="#create-an-ad-campaign" class="toc-h2 toc-link" data-title="Ad Campaign APIs">Create An Ad Campaign</a>
                   </li>
+                  <li>
+                    <a href="#updating-an-ad-campaign" class="toc-h2 toc-link" data-title="Ad Campaign APIs">Updating An Ad Campaign</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -280,9 +283,6 @@
                     <a href="#create-a-reach-estimate" class="toc-h2 toc-link" data-title="Targeting APIs">Create a Reach Estimate</a>
                   </li>
               </ul>
-          </li>
-          <li>
-            <a href="#ad-creation-flow" class="toc-h1 toc-link" data-title="Ad Creation Flow">Ad Creation Flow</a>
           </li>
       </div>
         <ul class="toc-footer">
@@ -1052,6 +1052,45 @@ If the <code>is_lookalike</code> attribute is true, a Facebook lookalike audienc
 <p>When creating a campaign, the request body should be a campaign model. If the campaign isn&#39;t ready to be launched yet, the <code>status</code> field should equal &#39;draft&#39;. Otherwise, the campaign will immediately be added to Facebook. While the campaign is being added to Facebook, the ToneDen backend will set its <code>status</code> to &#39;pending&#39;. The creation process can take anywhere from a few seconds to 20 minutes, depending on the audience types used.</p>
 
 <p>Once the campaign has been created on Facebook, the backend will set its <code>status</code> to either &#39;active&#39; or &#39;error&#39;, if the campaign failed to create. When campaigns fail to create, their <code>status_message</code> field will contain a description of the problem.</p>
+<h2 id='updating-an-ad-campaign'>Updating An Ad Campaign</h2>
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/campaigns/384 <span class="se">\</span>
+    -X PUT <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span> <span class="se">\</span>
+    --d <span class="s1">'{
+        "status":"paused"
+    }'</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"campaign"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Ad</span><span class="w"> </span><span class="err">Campaign</span><span class="w"> </span><span class="err">Model&gt;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='changing-campaign-status'>Changing Campaign Status</h3>
+<p>The effect that an update has on a campaign depends on the campaign&#39;s <code>status</code>.</p>
+
+<p>If a campaign was previously a draft, and its new <code>status</code> is active, the campaign will be created in Facebook, and it&#39;s <code>status</code> set to &#39;pending&#39;.</p>
+
+<p>If a campaign&#39;s <code>status</code> is &#39;pending&#39;, then no updates can be made to it, as it is still being created.</p>
+
+<p>Active campaigns can be paused by setting their <code>status</code> to &#39;paused&#39;, and paused campaigns can be resumed by setting their <code>status</code> to &#39;active&#39; again.</p>
+
+<p>To cancel a running campaign and return it to draft status, just set the <code>status</code> to &#39;draft&#39; again. Note that this will remove any results from a running campaign, and is irreversible.</p>
+<h3 id='updating-creatives'>Updating Creatives</h3>
+<p>Because ToneDen automatically generates combinations of every possible creative field, each field value in an ad&#39;s creative can refer to multiple ads on Facebook.
+This means that when the creatives for an ad are changed, we need to regenerate all the creative combinations in order to update the ads on Facebook.
+When the creative is updated, we delete all the old ads from Facebook and then re-create them with new creatives.
+This removes any engagement (likes, comments, reactions) from the ads.</p>
+<h3 id='updating-audiences'>Updating Audiences</h3>
+<p>Over the course of a campaign, ToneDen will automatically shift a campaign&#39;s budget between its audiences.
+Audiences which are performing well will receive a larger portion of the budget.
+When audiences are added or removed from a campaign, however, the budget needs to be re-allocated to ensure that the entire budget of the campaign is still spread amongst the audiences.
+In order to ensure that new audiences get a chance to have their performance tested, the ToneDen backend will evenly redistribute budget among all the audiences.</p>
 <h1 id='ad-account-apis'>Ad Account APIs</h1>
 <p>Ad accounts are entities that can run ads on Facebook. Every ad campaign on Facebook is run through an ad account, and the budget of that ad is charged to the payment method attached to the ad account that owns the campaign.</p>
 
@@ -1145,6 +1184,8 @@ If the <code>is_lookalike</code> attribute is true, a Facebook lookalike audienc
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/users/1000/advertising/accounts?platform<span class="o">=</span>facebook <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
 </code></pre>
 <blockquote>
@@ -1302,6 +1343,8 @@ If the <code>is_lookalike</code> attribute is true, a Facebook lookalike audienc
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/users/1000/pages <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
 </code></pre>
 <blockquote>
@@ -1345,6 +1388,8 @@ If the <code>is_lookalike</code> attribute is true, a Facebook lookalike audienc
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/audienceSizes <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
 </code></pre>
 <blockquote>
@@ -1367,6 +1412,8 @@ If the <code>is_lookalike</code> attribute is true, a Facebook lookalike audienc
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/pastAudiences <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
 </code></pre>
 <blockquote>
@@ -1527,6 +1574,8 @@ It is meant to aid advertisers in creating audiences, by showing them audiences 
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl https://www.toneden.io/api/v1/advertising/targeting/search?platform<span class="o">=</span>facebook&amp;query<span class="o">=</span>new%20york&amp;type<span class="o">=</span>location <span class="se">\</span>
+    -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer &lt;Token&gt;'</span>
 </code></pre>
 <blockquote>
@@ -1768,13 +1817,6 @@ For new campaigns, only audiences with the <code>data_source_platform</code> set
 <td>The list of audiences to get reach estimates for.</td>
 </tr>
 </tbody></table>
-<h1 id='ad-creation-flow'>Ad Creation Flow</h1>
-<p>When creating an ad, the following API calls are necessary.</p>
-
-<ol>
-<li><a href="#get-a-user-39-s-ad-accounts">Get a list of the user&#39;s Facebook ad accounts</a>.</li>
-<li><a href="#get-a-user-39-s-pages">Get a list of pages that the user has access to</a>.</li>
-</ol>
 
       </div>
       <div class="dark-box">
