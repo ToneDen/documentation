@@ -123,7 +123,7 @@ display_asset | array | An array of objects with a `type` parameter equal to 'vi
 is_carousel | boolean | Whether the creative should be displayed as a carousel of images. A carousel ad must have between 2 and 10 images or videos in it.
 link | array | If `is_carousel` is true, this field can be used to set the links of individual carousel items.
 
-## Create an Ad Campaign
+## Create An Ad Campaign
 
 > Sample Request
 
@@ -140,10 +140,7 @@ curl https://www.toneden.io/api/v1/advertising/campaigns \
         "objective": "471224396398376",
         "target": "www.toneden.io",
         "target_type": "conversion",
-        "app_deep_link_url": null,
-        "app_store_url": null,
         "creatives": {
-            "id": [],
             "is_carousel": false,
             "cta_type": ["learnMore"],
             "link": [],
@@ -158,11 +155,8 @@ curl https://www.toneden.io/api/v1/advertising/campaigns \
                 "video_id": "10154988045646798",
                 "video_url": "https://video.xx.fbcdn.net/v/t43.1792-2/16738051_156652284843105_916146507403493376_n.mp4?efg=eyJybHIiOjIwMzQsInJsYSI6MTM3MSwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=2034&vabr=1356&oh=04a4df86e0f49c047b43a2c471febdc2&oe=598E3846"
             }],
-            "deep_link": [],
             "text": ["ToneDen\'s new API is out!"],
-            "type": [],
-            "clientHeight": [],
-            "clientWidth": []
+            "type": []
         },
         "audiences": [{
             "targeting": {
@@ -231,8 +225,7 @@ curl https://www.toneden.io/api/v1/advertising/campaigns \
             "data_source": "interests",
             "is_lookalike": false
         }],
-        "report_emails": ["renegadelsbree@gmail.com"],
-        "targeting": {},
+        "report_emails": ["nick@toneden.io"],
         "budget_type": "lifetime",
         "budget_amount": 10000,
         "external_ad_account_id": "act_246197557",
@@ -292,7 +285,7 @@ curl https://www.toneden.io/api/v1/advertising/campaigns \
 		"id": 384,
 		"title": "Website Traffic",
 		"platform": "facebook",
-		"report_emails": ["renegadelsbree@gmail.com"],
+		"report_emails": ["nick@toneden.io"],
 		"objective": "471224396398376",
 		"optimization_id": "CONTENT_VIEW",
 		"target": "www.toneden.io",
