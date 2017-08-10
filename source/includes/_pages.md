@@ -1,4 +1,4 @@
-# Pages
+# Facebook Page APIs
 
 Facebook pages represent the public-facing profile of a business, brand, artist, or other entity. They can post content, get liked by their fans, and run ads. Every ad on Facebook appears as a post by a Facebook page.
 

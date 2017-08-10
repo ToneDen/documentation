@@ -1,4 +1,4 @@
-# Targeting
+# Targeting APIs
 
 Endpoints in this section assist advertisers in generating targeting specs for their audiences. For more information on the structure of audiences in ad campaigns, see the [targeting spec documentation](#targeting-spec).
 

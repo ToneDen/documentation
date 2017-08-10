@@ -1,4 +1,4 @@
-# Ad Accounts
+# Ad Account APIs
 
 Ad accounts are entities that can run ads on Facebook. Every ad campaign on Facebook is run through an ad account, and the budget of that ad is charged to the payment method attached to the ad account that owns the campaign.
 

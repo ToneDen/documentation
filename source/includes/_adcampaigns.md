@@ -1,4 +1,4 @@
-# Ad Campaigns
+# Ad Campaign APIs
 
 An ad campaign represents an amount of money that will be spent over a given time period to accomplish a specific objective.
 
@@ -48,7 +48,7 @@ id | string | The ID of the Facebook adset that this audience represents.
 name | string | The name of the audience. Can be automatically generated, or entered manually.
 status | string | The status of the audience. Can be 'ACTIVE' or 'PAUSED'.
 weight | double | The portion of the campaign's budget that has been allocated to this audience. Budget is initially distributed evenly amongst the audiences, but over time more budget will be assigned to high-performing audiences.
-data_source_platform | string | The platform that ToneDen's backend will get audience data from to create this audience. Valid values are 'eventbrite', 'facebook', 'mailchimp', 'pixel', 'shopify', and 'toneden'.
+data_source_platform | string | The platform that ToneDen's backend will get audience data from to create this audience. Valid values are 'eventbrite', 'facebook', 'mailchimp', 'pixel', 'shopify', and 'toneden'. See the [audience types documentation](#audience-types) for more details about how to use this field.
 data_source | string | The type of data that will be pulled from the platform defined in `data_source_platform`. The available options depend on the value of `data_source_platform`. For example, the value of the `data_source` attribute when the `data_source_platform` is 'eventbrite' can be 'all-attendees', 'event-attendees', 'page-visitors', 'rsvps', or 'top-attendees'.
 is_lookalike | boolean | Whether to advertise directly to the users defined by the `data_source_platform` and `data_source` attributes, or to create a Facebook lookalike audience out of the defined users and advertise to that audience.
 targeting | object | Targeting parameters that will be applied to this audience in Facebook. These parameters will filter down the audience defined by the `data_source_platform`, `data_source`, and `is_lookalike` attributes. See the [targeting spec](#targeting-spec) for details on fields available.
@@ -61,6 +61,36 @@ conversions | int | The number of times users have performed the campaign object
 conversion_rate | double | The faction of people that see ads in this audience who perform the campaign objective.
 conversion_value | double | The total currency value of PURCHASE events that occurred from users who clicked ads in this audience.
 cost_per_conversion | double | The average cost to get a user to perform the campaign objective.
+
+## Audience Types
+
+The type of audience that will be created is determined by the `data_source_platform`, `data_source`, and `is_lookalike` fields.
+The `data_source_platform` attribute determines which external platform ToneDen's backend will retrieve audience data from, and the `data_source` attribute decides which data to pull from that platform.
+If the `is_lookalike` attribute is true, a Facebook lookalike audience will be created using the retrieved audience data. If it is false, the retrieved audience will be advertised to directly.
+
+The following is a list of all valid combinations of `data_source_platform` and `data_source` values.
+
+data_source_platform | data_source | Additional Fields | Description
+- | - | - | -
+eventbrite | all-attendees | | All attendees of the advertiser's Eventbrite events.
+eventbrite | event-attendees | event_id | Attendees of the Eventbrite event with the ID equal to the audience's `event_id` value.
+eventbrite | page-visitors | | Everyone who has visited the user's Eventbrite event pages.
+eventbrite | rsvps | | Everyone who has RSVP'd to the user's Eventbrite events.
+eventbrite | top-attendees | | The top 1000 Eventbrite attendees by total purchase value.
+facebook | all | custom_audience_id | Allows the advertiser to target a previously-created Facebook custom audience, determined by the audience's `custom_audience_id` value.
+facebook | page-engagers | page_id | Targets every Facebook user who has engaged with the selected page.
+facebook | page-likes | page_ids | Targets every Facebook user who has liked at least one of the selected pages. The audience's `page_ids` value should be an array of Facebook page IDs.
+facebook | event | event_id | Targets every Facebook user who RSVP'd to the selected Facebook event.
+mailchimp | list | list_id | Targets all the email addresses in the Mailchimp list with the ID equal to the audience's `list_id` value.
+mailchimp | top-list | | Determines the advertiser's top-performing Mailchimp list based on email click rate, and then targets members of that list.
+mailchimp | openers | | Targets everyone who has opened any of the user's last 50 Mailchimp email campaigns.
+pixel | website-visitors | | Targets every user who has triggered the advertiser's Facebook pixel.
+shopify | abandoned-cart | | Everyone who has created a cart on the advertiser's Shopify store, but left before purchasing the items in the cart.
+shopify | all-purchasers | | Everyone who has made a purchase from the advertiser's Shopify store.
+shopify | top-purchasers | | The 1000 top Shopify customers of the advertiser's store, based on the total value of goods they have purchased.
+toneden | fanlink | fanlink_id | If the `link_id` field of the audience is set, targets all user's who have visited that link. Otherwise, targets all users who have visited any of the advertiser's fanlinks.
+toneden | segment | segment_id | Targets all members of the ToneDen fan segment whose ID matches the audience's `segment_id` value.
+toneden | top-fans | | Targets the advertiser's 1000 top fans on ToneDen, determined by how often the fans interact with the advertiser's ToneDen content (social unlocks, fanlinks, and contests).
 
 ## Targeting Spec
 
